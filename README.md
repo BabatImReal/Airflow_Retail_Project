@@ -1,54 +1,75 @@
-Overview
-========
-
-Welcome to Astronomer! This project was generated after you ran 'astro dev init' using the Astronomer CLI. This readme describes the contents of the project, as well as how to run Apache Airflow on your local machine.
-
-Project Contents
-================
-
-Your Astro project contains the following files and folders:
-
-- dags: This folder contains the Python files for your Airflow DAGs. By default, this directory includes one example DAG:
-    - `example_astronauts`: This DAG shows a simple ETL pipeline example that queries the list of astronauts currently in space from the Open Notify API and prints a statement for each astronaut. The DAG uses the TaskFlow API to define tasks in Python, and dynamic task mapping to dynamically print a statement for each astronaut. For more on how this DAG works, see our [Getting started tutorial](https://www.astronomer.io/docs/learn/get-started-with-airflow).
-- Dockerfile: This file contains a versioned Astro Runtime Docker image that provides a differentiated Airflow experience. If you want to execute other commands or overrides at runtime, specify them here.
-- include: This folder contains any additional files that you want to include as part of your project. It is empty by default.
-- packages.txt: Install OS-level packages needed for your project by adding them to this file. It is empty by default.
-- requirements.txt: Install Python packages needed for your project by adding them to this file. It is empty by default.
-- plugins: Add custom or community plugins for your project to this file. It is empty by default.
-- airflow_settings.yaml: Use this local-only file to specify Airflow Connections, Variables, and Pools instead of entering them in the Airflow UI as you develop DAGs in this project.
-
-Deploy Your Project Locally
-===========================
-
-Start Airflow on your local machine by running 'astro dev start'.
-
-This command will spin up five Docker containers on your machine, each for a different Airflow component:
-
-- Postgres: Airflow's Metadata Database
-- Scheduler: The Airflow component responsible for monitoring and triggering tasks
-- DAG Processor: The Airflow component responsible for parsing DAGs
-- API Server: The Airflow component responsible for serving the Airflow UI and API
-- Triggerer: The Airflow component responsible for triggering deferred tasks
-
-When all five containers are ready the command will open the browser to the Airflow UI at http://localhost:8080/. You should also be able to access your Postgres Database at 'localhost:5432/postgres' with username 'postgres' and password 'postgres'.
-
-Note: If you already have either of the above ports allocated, you can either [stop your existing Docker containers or change the port](https://www.astronomer.io/docs/astro/cli/troubleshoot-locally#ports-are-not-available-for-my-local-airflow-webserver).
-
-Deploy Your Project to Astronomer
-=================================
-
-If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
-
-Contact
-=======
-
-The Astronomer CLI is maintained with love by the Astronomer team. To report a bug or suggest a change, reach out to our support.
-
 # Retail_Airflow_Project
 
 Welcome to the **Retail Airflow Project** powered by **Astronomer**! This project is designed to manage and orchestrate data workflows for retail operations using **Apache Airflow**, integrated with **DBT** for data transformations and **Soda** for data quality checks. This README outlines the project structure and how to run it locally using the Astronomer CLI.
 
 ---
+
+# Dataset
+
+The dataset used in this project is from Kaggle:
+
+[Online Retail Dataset](https://www.kaggle.com/datasets/tunguz/online-retail)
+
+# Online Retail Data Pipeline
+[Retail Pipeline](images/Pipeline.png)
+
+## Overview
+This repository contains an end-to-end data pipeline designed to process online retail raw data into analytical-ready insights through a series of data quality checks and transformations.
+
+## Architecture
+The pipeline follows a modern data stack approach with the following components:
+
+- Data Source: Online retail transaction data in CSV format
+- Data Ingestion: Raw dataset ingestion process using Snowflake
+- Data Quality: SODA checks at multiple stages to ensure data integrity
+- Data Transformation: dbt models for both data transformation and reporting
+- Data Visualization: Metabase for end-user analytics and dashboarding
+- Orchestration: Google Cloud Composer (Airflow) for workflow management
+
+## Pipeline Flow
+
+- Online retail raw data (CSV) is loaded into the system
+- The ingestion process moves data into Snowflake
+- Initial SODA quality checks validate the raw data
+- dbt models transform the data into a structured format
+- Second SODA quality checks validate the transformed data
+- Additional dbt models prepare data specifically for reporting needs
+- Final SODA quality checks ensure reporting data meets quality standards
+- Transformed and validated data is made available in Metabase
+
+# Online Retail Data Modeling
+[Data Model](images/Data_Modeling.png)
+
+## Data Warehouse Schema
+The data is modeled in a star schema design with the following structure:
+Fact Table
+
+### fct_invoices: Contains transactional data with measures such as quantity and total, linked to dimension tables via foreign keys
+
+- Primary Key: invoice_id
+- Foreign Keys: datetime_id, product_id, customer_id
+- Measures: quantity, total
+- 
+### Dimension Tables
+
+- dim_product: Product dimension with details about each product
+    - Primary Key: product_id
+    - Attributes: stock_code, description, price
+
+
+- dim_customer: Customer dimension with customer information
+    - Primary Key: customer_id
+    - Attributes: country
+
+- dim_datetime: Time dimension with date/time hierarchies
+
+    - Primary Key: datetime_id
+    - Attributes: datetime, year, month, day, hour, min, weekday
+
+This schema supports flexible querying across multiple dimensions for analytics purposes.
+
+# Result Dashboard
+[Retail Dataset Dashboard](images/Dashboard.png)
 
 ## 📁 Project Contents
 
