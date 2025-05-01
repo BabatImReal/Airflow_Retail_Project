@@ -11,7 +11,7 @@ The dataset used in this project is from Kaggle:
 [Online Retail Dataset](https://www.kaggle.com/datasets/tunguz/online-retail)
 
 # Online Retail Data Pipeline
-[Retail Pipeline](images/Pipeline.png)
+![Retail Pipeline](images/Pipeline.png)
 
 ## Overview
 This repository contains an end-to-end data pipeline designed to process online retail raw data into analytical-ready insights through a series of data quality checks and transformations.
@@ -38,7 +38,7 @@ The pipeline follows a modern data stack approach with the following components:
 - Transformed and validated data is made available in Metabase
 
 # Online Retail Data Modeling
-[Data Model](images/Data_Modeling.png)
+![Data Model](images/Data_Modeling.png)
 
 ## Data Warehouse Schema
 The data is modeled in a star schema design with the following structure:
@@ -69,7 +69,7 @@ Fact Table
 This schema supports flexible querying across multiple dimensions for analytics purposes.
 
 # Result Dashboard
-[Retail Dataset Dashboard](images/Dashboard.png)
+![Retail Dataset Dashboard](images/Dashboard.png)
 
 ## 📁 Project Contents
 
